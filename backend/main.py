@@ -1,4 +1,9 @@
 from fastapi import FastAPI
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+GEMINI_API = os.getenv("GEMINI_API_KEY")
 
 app = FastAPI()
 
@@ -13,3 +18,8 @@ async def health():
 @app.get("/users/{user_id}")
 async def read_user(user_id  :str):
     return {"user" : user_id}
+
+@app.get("/getapi")
+async def display():
+    return {"api" : GEMINI_API}
+

@@ -1,9 +1,12 @@
 from fastapi import FastAPI
 import os
 from dotenv import load_dotenv
+from google import genai
+from models.gemini_provider import GeminiProvider
+
+provider = GeminiProvider()
 
 load_dotenv()
-GEMINI_API = os.getenv("GEMINI_API_KEY")
 
 app = FastAPI()
 
@@ -23,3 +26,7 @@ async def read_user(user_id  :str):
 async def display():
     return {"api" : GEMINI_API}
 
+@app.get("/api/{input_txt}")
+async def api_call(input_txt : str):
+    res = await provider.model_call(input_txt)
+    return res
